@@ -1,0 +1,17 @@
+---
+- name: Home assistant
+  hosts: all
+  vars:
+    ddclient_conf:
+      - name: dynamic dns for home.johnvh.com
+        protocol: namecheap
+        use: web, web=dynamicdns.park-your-domain.com/getip
+        server: dynamicdns.park-your-domain.com
+        login: johnvh.com
+        password: "{{ ddclient_password }}"
+        address: home
+  tasks:
+    - debug:
+        msg: "{{ ddclient_conf }}"
+  roles:
+    - jpartain89.ddclient
