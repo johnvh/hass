@@ -1,0 +1,37 @@
+---
+- name: install nginx
+  become: true
+  apt:
+    name: nginx
+    state: present
+
+- name: remove default conf
+  become: true
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: make www root
+  become: true
+  file:
+    path: /srv/www/home.johnvh.com
+    state: directory
+
+- name: nginx conf
+  become: true
+  copy:
+    src: files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - reload nginx
+
+- name: nginx site conf
+  become: true
+  copy:
+    src: files/home.johnvh.com.conf
+    dest: /etc/nginx/sites-enabled/home.johnvh.com.conf
+  notify:
+    - reload nginx
+
+- name: Enable and start nginx
+  service: name=nginx state=started enabled=yes

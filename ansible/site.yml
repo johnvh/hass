@@ -1,4 +1,5 @@
 ---
+# TODO: static ip
 - name: Home assistant
   hosts: all
   vars:
@@ -10,8 +11,9 @@
         login: johnvh.com
         password: "{{ ddclient_password }}"
         address: home
-  tasks:
-    - debug:
-        msg: "{{ ddclient_conf }}"
+    letsencrypt:
+      host: home.johnvh.com
   roles:
-    - jpartain89.ddclient
+    # - jpartain89.ddclient
+    - nginx
+    - letsencrypt
