@@ -25,3 +25,9 @@
     # - jpartain89.ddclient
     - nginx
     # - letsencrypt
+  tasks:
+    - name: install sqlite3
+      apt:
+        name: sqlite3
+        state: present
+      become: true
