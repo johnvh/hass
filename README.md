@@ -1,6 +1,6 @@
 # Hass Stuff
 
-[Home Assistant][ha] stuff.
+[Home Assistant][hass] stuff.
 
 ## Ansible
 
