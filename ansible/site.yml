@@ -3,6 +3,8 @@
 - name: Home assistant
   hosts: all
   vars:
+    host_name: home.johnvh.com
+    web_root: /srv/www/{{host_name}}
     ddclient_conf:
       - name: dynamic dns for home.johnvh.com
         protocol: namecheap
@@ -11,9 +13,15 @@
         login: johnvh.com
         password: "{{ ddclient_password }}"
         address: home
+    nginx:
+      web_root: '{{web_root}}'
+      web_root_owner: www-data
+      web_root_group: www-data
     letsencrypt:
-      host: home.johnvh.com
+      host_name: '{{host_name}}'
+      web_root: '{{web_root}}'
+      email: jmvanhorn@gmail.com
   roles:
     # - jpartain89.ddclient
     - nginx
-    - letsencrypt
+    # - letsencrypt

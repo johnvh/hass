@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: '{{nginx}}'
+
 - name: install nginx
   become: true
   apt:
@@ -14,8 +17,10 @@
 - name: make www root
   become: true
   file:
-    path: /srv/www/home.johnvh.com
+    path: '{{nginx.web_root}}'
     state: directory
+    owner: '{{nginx.web_root_owner}}'
+    group: '{{nginx.web_root_group}}'
 
 - name: nginx conf
   become: true

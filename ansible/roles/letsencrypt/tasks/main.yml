@@ -1,7 +1,10 @@
 ---
+- debug:
+    msg: letsencrypt.host {{letsencrypt}}
+
 - name: install certbot
   apt:
-    name: certbot
+    name: ['certbot', 'python-certbot-nginx']
     state: present
   become: true
 
@@ -10,13 +13,20 @@
     path: /etc/letsencrypt/live
   register: stat_result
 
-- debug:
-    msg: letsencrypt.host {{letsencrypt.host}}
-
-# - name: get initial cert
-#   command: "certbot certonly --standalone -d '{{letsencrypt.host}}'"
-#   become: true
-  # when: not stat_result.stat.exists
+# nginx installer doesnt work, seems like it looks for server_name matching the
+# domain, doenst find server_name=_
+- name: get cert
+  command: >
+    certbot run
+    --non-interactive
+    --agree-tos
+    --email {{letsencrypt.email}}
+    --authenticator webroot
+    --webroot-path {{letsencrypt.web_root}}
+    --installer nginx
+    --domain {{letsencrypt.host_name}}
+  become: true
+  when: not stat_result.stat.exists
 
   #
   #- name: certbot cron job
