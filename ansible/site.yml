@@ -1,5 +1,6 @@
 ---
 # TODO: static ip
+# TODO: letsencrypt autorenew
 - name: Home assistant
   hosts: all
   vars:
